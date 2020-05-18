@@ -25,3 +25,41 @@
 .downArrow:hover {
   opacity: 1;
 }
+
+.addCardContainer {
+  width: 100%;
+  min-height: 12rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  border: solid 0.1rem #eee;
+  border-style: solid;
+  background-color: #fff;
+  padding: 2rem;
+  box-shadow: 0 0 4rem 0 rgba(82, 63, 105, 0.1);
+  border-radius: 0.2rem;
+}
+
+.addCardButton {
+  font-family: "Oxygen", sans-serif;
+  padding: 0.6rem 0.8rem;
+  height: 4rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background-color: #2d7dd2;
+  color: #fff;
+  min-width: 7rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 0.2rem;
+}
+
+.addTitleContainer {
+  font-size: 1.5rem;
+  font-weight: 300;
+  padding: 0 1rem;
+}

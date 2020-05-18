@@ -151,6 +151,20 @@ const ContentWrapper = () => {
     }
   };
 
+  const addCardHandler = () => {
+    setCardList([
+      ...cardList,
+      {
+        key: "0-1",
+        id: Math.floor(Math.random() * 100),
+        text: "",
+        field: "goal",
+        color: "#b3d7eb",
+        children: [],
+      },
+    ]);
+  };
+
   const recursion = (cardList) => {
     return (
       <div
@@ -187,7 +201,24 @@ const ContentWrapper = () => {
   };
 
   return (
-    <div className={classNames("contentWrapper")}>{recursion(cardList)}</div>
+    <div className={classNames("contentWrapper")}>
+      {cardList.length !== 0 ? (
+        recursion(cardList)
+      ) : (
+        <div className={classNames("addCardContainer")}>
+          <button
+            className={classNames("addCardButton")}
+            onClick={addCardHandler}
+          >
+            Let's add
+          </button>
+          <p className={classNames("addTitleContainer")}>
+            {" "}
+            your first card to this board.{" "}
+          </p>
+        </div>
+      )}
+    </div>
   );
 };
 
