@@ -53,7 +53,7 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
           ></i>
           <i
             className={classNames("fa fa-chevron-right", {
-              "fa fa-chevron-down": card.field == "task",
+              "fa fa-chevron-down": card.field === "task",
             })}
             aria-hidden="true"
             onClick={handleSubmit}

@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import "./ContentWrapper.scss";
 import CardForm from "../cardForm/CardForm";
@@ -9,7 +9,7 @@ const ContentWrapper = () => {
 
   const addUpdateCardHandler = (text, card, editFlag) => {
     if (card.field === "task") {
-      let upDatedCards = cardList.map((goal) => {
+      let updatedCards = cardList.map((goal) => {
         let activities = goal.children || [];
 
         activities.map((activity) => {
@@ -19,6 +19,7 @@ const ContentWrapper = () => {
                 if (task.id === card.id) {
                   task.text = text;
                 }
+                return task;
               });
             } else {
               activity.children.push({
@@ -28,7 +29,6 @@ const ContentWrapper = () => {
                 text: text,
                 field: card.field,
                 color: card.color,
-                children: [],
               });
             }
           }
@@ -36,15 +36,16 @@ const ContentWrapper = () => {
         });
         return goal;
       });
-      setCardList(upDatedCards);
+      setCardList(updatedCards);
     } else if (card.field === "activity") {
-      let upDatedCards = cardList.map((goal) => {
+      let updatedCards = cardList.map((goal) => {
         if (goal.id === card.parent.id) {
           if (editFlag) {
             goal.children.map((activity) => {
               if (activity.id === card.id) {
                 activity.text = text;
               }
+              return activity;
             });
           } else {
             goal.children.push({
@@ -60,16 +61,16 @@ const ContentWrapper = () => {
         }
         return goal;
       });
-      setCardList(upDatedCards);
+      setCardList(updatedCards);
     } else {
       if (editFlag) {
-        let upDatedCards = cardList.map((goal) => {
+        let updatedCards = cardList.map((goal) => {
           if (goal.id === card.id) {
             goal.text = text;
           }
           return goal;
         });
-        setCardList(upDatedCards);
+        setCardList(updatedCards);
       } else {
         setCardList([
           ...cardList,
@@ -79,6 +80,7 @@ const ContentWrapper = () => {
             text: text,
             field: card.field,
             color: card.color,
+            children: [],
           },
         ]);
       }
@@ -87,7 +89,7 @@ const ContentWrapper = () => {
 
   const removeCardHandler = (card) => {
     if (card.field === "task") {
-      let upDatedCards = cardList.map((goal) => {
+      let updatedCards = cardList.map((goal) => {
         goal.children.map((activity) => {
           let tasks = activity.children.filter((task) => task.id !== card.id);
           activity.children = tasks;
@@ -95,31 +97,70 @@ const ContentWrapper = () => {
         });
         return goal;
       });
-      setCardList(upDatedCards);
+      setCardList(updatedCards);
     } else if (card.field === "activity") {
-      let upDatedCards = cardList.map((goal) => {
+      let updatedCards = cardList.map((goal) => {
         goal.children = goal.children.filter(
           (activity) => activity.id !== card.id
         );
         return goal;
       });
-      setCardList(upDatedCards);
+      setCardList(updatedCards);
     } else {
-      let upDatedCards = cardList.filter((goal) => goal.id !== card.id);
-      setCardList(upDatedCards);
+      let updatedCards = cardList.filter((goal) => goal.id !== card.id);
+      setCardList(updatedCards);
     }
   };
 
-  const recursion = (cards) => {
+  const addChildCardHandler = (card) => {
+    if (card.field === "goal") {
+      let updatedCards = cardList.map((goal) => {
+        if (goal.id === card.id) {
+          goal.children.push({
+            key: "0-1",
+            id: Math.floor(Math.random() * 100),
+            parent: { id: card.id },
+            text: "",
+            field: "activity",
+            color: "#fff790",
+            children: [],
+          });
+        }
+        return goal;
+      });
+      setCardList(updatedCards);
+    } else if (card.field === "activity") {
+      let updatedCards = cardList.map((goal) => {
+        let activities = goal.children || [];
+        activities.map((activity) => {
+          if (activity.id === card.id) {
+            activity.children.push({
+              key: "0-1",
+              id: Math.floor(Math.random() * 100),
+              parent: { id: card.id },
+              text: "",
+              field: "task",
+              color: "#fff",
+            });
+          }
+          return activity;
+        });
+        return goal;
+      });
+      setCardList(updatedCards);
+    }
+  };
+
+  const recursion = (cardList) => {
     return (
       <div
         className={classNames("recursiveWrapper")}
         style={{
           flexDirection:
-            cards.length && cards[0].field === "task" ? "column" : "row",
+            cardList.length && cardList[0].field === "task" ? "column" : "row",
         }}
       >
-        {cards.map((card) => {
+        {cardList.map((card) => {
           return (
             <div key={card.id}>
               <CardForm
@@ -128,8 +169,16 @@ const ContentWrapper = () => {
                 card={card}
                 cardList={dummyData}
               ></CardForm>
-
-              <div> {card.children && recursion(card.children)} </div>
+              {card.field !== "task" && card.children.length === 0 ? (
+                <i
+                  onClick={() => addChildCardHandler(card)}
+                  className={classNames("fa fa-chevron-down", "downArrow")}
+                  aria-hidden="true"
+                ></i>
+              ) : (
+                ""
+              )}
+              <div>{card.children && recursion(card.children)}</div>
             </div>
           );
         })}
