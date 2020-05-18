@@ -1,0 +1,87 @@
+[
+  {
+    "key": "0-0",
+    "id": 1,
+    "text": "Goal1",
+    "field": "goal",
+    "color": "#b3d7eb",
+    "children": [
+      {
+        "key": "0-0-0",
+        "id": 2,
+        "parent": { "id": 1 },
+        "text": "Activity1",
+        "field": "activity",
+        "color": "#fff790",
+        "children": [
+          {
+            "key": "0-0-0-0",
+            "id": 3,
+            "parent": { "id": 2 },
+            "text": "Task1",
+            "field": "task",
+            "color": "#fff"
+          },
+          {
+            "key": "0-0-0-1",
+            "id": 4,
+            "parent": { "id": 2 },
+            "text": "Task2",
+            "field": "task",
+            "color": "#fff"
+          },
+          {
+            "key": "0-0-0-2",
+            "id": 11,
+            "parent": { "id": 2 },
+            "text": "Task2",
+            "field": "task",
+            "color": "#fff"
+          }
+        ]
+      },
+      {
+        "key": "0-0-1",
+        "text": "Activity2",
+        "id": 5,
+        "parent": { "id": 1 },
+        "field": "activity",
+        "color": "#fff790",
+        "children": [
+          {
+            "key": "0-0-1-0",
+            "id": 6,
+            "parent": { "id": 5 },
+            "text": "Task1",
+            "field": "task",
+            "color": "#fff"
+          },
+          {
+            "key": "0-0-1-1",
+            "text": "Task2",
+            "id": 7,
+            "parent": { "id": 5 },
+            "field": "task",
+            "color": "#fff"
+          },
+          {
+            "key": "0-0-1-2",
+            "id": 8,
+            "parent": { "id": 5 },
+            "text": "Task3",
+            "field": "task",
+            "color": "#fff"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "0-0",
+    "id": 10,
+    "text": "Goal1",
+    "field": "goal",
+    "color": "#b3d7eb",
+    "children": []
+  }
+]

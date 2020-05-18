@@ -1,0 +1,25 @@
+.contentWrapper {
+  margin-top: 8rem;
+  margin-left: 2rem;
+  position: relative;
+
+  & > .recursiveWrapper > div {
+    border-right: 0.1rem solid #e7e7f1;
+    padding: 0 1rem;
+  }
+}
+
+.recursiveWrapper {
+  display: flex;
+  justify-items: flex-start;
+}
+
+.boardLine {
+  border-left: 0.1rem solid #e7e7f1;
+  height: 20rem;
+  margin: 1rem;
+}
+
+.parent {
+  display: "inline-block";
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "key": "0-0",
+    "id": 1,
+    "text": "Goal1",
+    "parent": null,
+    "field": "goal",
+    "color": "#b3d7eb"
+  },
+  {
+    "key": "0-0-0",
+    "id": 2,
+    "parent": 1,
+    "text": "Activity1",
+    "field": "activity",
+    "color": "#fff790"
+  },
+  {
+    "key": "0-0-0-0",
+    "id": 3,
+    "parent": 2,
+    "text": "Task1",
+    "field": "task",
+    "color": "#fff"
+  },
+  {
+    "key": "0-0-0-0",
+    "id": 5,
+    "parent": 2,
+    "text": "Task1",
+    "field": "task",
+    "color": "#fff"
+  },
+  {
+    "key": "0-0",
+    "id": 4,
+    "text": "Goal2",
+    "parent": null,
+    "field": "goal",
+    "color": "#b3d7eb"
+  }
+]

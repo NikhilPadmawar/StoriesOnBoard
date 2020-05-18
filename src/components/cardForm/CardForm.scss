@@ -1,0 +1,46 @@
+.cards {
+  position: relative;
+  cursor: pointer;
+  flex-basis: 12rem;
+  flex-shrink: 0;
+  width: 12rem;
+  height: 7.8rem;
+  padding: 0.3rem;
+  margin: 0.4rem;
+  margin-bottom: 1rem;
+  display: block;
+  background-color: lightcoral;
+  border-width: 0.1rem;
+  border-radius: 0.2rem;
+  box-shadow: 0.15rem 0.15rem 0.12rem rgba(0, 0, 0, 0.15);
+}
+
+.textArea {
+  resize: none;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.hoverable {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.8rem;
+}
+
+.hover {
+  & .fa-pencil,
+  .fa-trash {
+    margin-right: 1rem;
+  }
+}
+
+.hoverable .hover {
+  display: none;
+}
+.hoverable:hover .normal {
+  display: none;
+}
+.hoverable:hover .hover {
+  display: inline;
+}
