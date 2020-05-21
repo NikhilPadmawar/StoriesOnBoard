@@ -22,5 +22,13 @@
 .profile {
   font-size: 1.6rem;
   color: #2d7dd2;
-  padding: 1.5rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  width: 10%;
+}
+
+.csv {
+  text-decoration: none;
+  color: #2d7dd2;
 }

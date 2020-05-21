@@ -59,11 +59,11 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
             onClick={handleSubmit}
           ></i>
         </span>
-        <span>
-          <i
-            className={classNames("normal", "fa fa-eye")}
-            aria-hidden="true"
-          ></i>
+        <span
+          className={classNames("normal", { iconSpacing: card.estimation })}
+        >
+          <i className={classNames("fa fa-eye")} aria-hidden="true"></i>
+          <i aria-hidden="true">{card.estimation}</i>
         </span>
       </div>
     </div>

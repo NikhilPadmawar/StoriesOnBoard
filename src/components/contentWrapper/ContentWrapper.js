@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import "./ContentWrapper.scss";
 import CardForm from "../cardForm/CardForm";
-import dummyData from "../../../src/dummy.json";
 
-const ContentWrapper = () => {
-  const [cardList, setCardList] = useState(dummyData);
+const ContentWrapper = ({ cardsData, getUpdatedList }) => {
+  const [cardList, setCardList] = useState(cardsData);
+
+  useEffect(() => {
+    getUpdatedList(cardList);
+  }, [cardList]);
 
   const addUpdateCardHandler = (text, card, editFlag) => {
     if (card.field === "task") {
@@ -23,11 +26,11 @@ const ContentWrapper = () => {
               });
             } else {
               activity.children.push({
-                key: "0-1",
                 id: Math.floor(Math.random() * 100),
                 parent: { id: card.parent.id },
                 text: text,
                 field: card.field,
+                estimation: 4,
                 color: card.color,
               });
             }
@@ -49,7 +52,6 @@ const ContentWrapper = () => {
             });
           } else {
             goal.children.push({
-              key: "0-1",
               id: Math.floor(Math.random() * 100),
               parent: { id: card.parent.id },
               text: text,
@@ -75,7 +77,6 @@ const ContentWrapper = () => {
         setCardList([
           ...cardList,
           {
-            key: "0-1",
             id: Math.floor(Math.random() * 100),
             text: text,
             field: card.field,
@@ -117,7 +118,6 @@ const ContentWrapper = () => {
       let updatedCards = cardList.map((goal) => {
         if (goal.id === card.id) {
           goal.children.push({
-            key: "0-1",
             id: Math.floor(Math.random() * 100),
             parent: { id: card.id },
             text: "",
@@ -135,11 +135,11 @@ const ContentWrapper = () => {
         activities.map((activity) => {
           if (activity.id === card.id) {
             activity.children.push({
-              key: "0-1",
               id: Math.floor(Math.random() * 100),
               parent: { id: card.id },
               text: "",
               field: "task",
+              estimation: 5,
               color: "#fff",
             });
           }
@@ -155,7 +155,6 @@ const ContentWrapper = () => {
     setCardList([
       ...cardList,
       {
-        key: "0-1",
         id: Math.floor(Math.random() * 100),
         text: "",
         field: "goal",
@@ -181,7 +180,7 @@ const ContentWrapper = () => {
                 addUpdateCard={addUpdateCardHandler}
                 removeCard={removeCardHandler}
                 card={card}
-                cardList={dummyData}
+                cardList={cardList}
               ></CardForm>
               {card.field !== "task" && card.children.length === 0 ? (
                 <i

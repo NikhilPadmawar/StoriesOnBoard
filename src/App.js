@@ -5,9 +5,7 @@ import "./App.css";
 function App() {
   return (
     <div>
-      <StoryBoardContainer>
-        
-      </StoryBoardContainer>
+      <StoryBoardContainer></StoryBoardContainer>
     </div>
   );
 }
