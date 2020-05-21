@@ -1,5 +1,3 @@
-import React from "react";
-
 const transFormData = (goals) => {
   const transFormList = goals.reduce((accGoal, goal) => {
     const reducedActivity =

@@ -17,7 +17,6 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
     setValue(card.text);
     setEditFlag(true);
   };
-
   return (
     <div style={{ background: card.color }} className={classNames("cards")}>
       <form onSubmit={handleSubmit}>
@@ -60,10 +59,26 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
           ></i>
         </span>
         <span
-          className={classNames("normal", { iconSpacing: card.estimation })}
+          className={classNames("normal", {
+            iconSpacing: card.estimation,
+          })}
         >
           <i className={classNames("fa fa-eye")} aria-hidden="true"></i>
-          <i aria-hidden="true">{card.estimation}</i>
+          {card.estimation ? <i aria-hidden="true">{card.estimation}</i> : ""}
+          {card.AActivityEstimation ? (
+            <i aria-hidden="true" className={classNames("alignTotal")}>
+              {card.AActivityEstimation}
+            </i>
+          ) : (
+            ""
+          )}
+          {card.ATasksEstimation ? (
+            <i aria-hidden="true" className={classNames("alignTotal")}>
+              {card.ATasksEstimation}
+            </i>
+          ) : (
+            ""
+          )}
         </span>
       </div>
     </div>

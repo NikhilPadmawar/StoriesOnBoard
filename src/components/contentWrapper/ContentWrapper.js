@@ -8,7 +8,27 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
 
   useEffect(() => {
     getUpdatedList(cardList);
-  }, [cardList]);
+    updatedEstimation(cardList);
+  }, [cardList, getUpdatedList]);
+
+  console.log(cardList);
+
+  const updatedEstimation = (goals) => {
+    goals.reduce((accGoal, goal) => {
+      const sumAct = goal.children.reduce((accActivity, activity) => {
+        const sumTask = activity.children.reduce((accTasks, task) => {
+          accTasks = accTasks + task.estimation;
+          return accTasks;
+        }, 0);
+        activity.ATasksEstimation = sumTask;
+        accActivity = accActivity + activity.ATasksEstimation;
+        return accActivity;
+      }, 0);
+      goal.AActivityEstimation = sumAct;
+      return accGoal;
+    }, 0);
+    setCardList(goals);
+  };
 
   const addUpdateCardHandler = (text, card, editFlag) => {
     if (card.field === "task") {
@@ -30,7 +50,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
                 parent: { id: card.parent.id },
                 text: text,
                 field: card.field,
-                estimation: 4,
+                estimation: 5,
                 color: card.color,
               });
             }
@@ -57,6 +77,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
               text: text,
               field: card.field,
               color: card.color,
+              ATasksEstimation: 8,
               children: [],
             });
           }
@@ -81,6 +102,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
             text: text,
             field: card.field,
             color: card.color,
+            AActivityEstimation: 9,
             children: [],
           },
         ]);
@@ -92,7 +114,9 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
     if (card.field === "task") {
       let updatedCards = cardList.map((goal) => {
         goal.children.map((activity) => {
-          let tasks = activity.children.filter((task) => task.id !== card.id);
+          let tasks = activity.children.filter((task) => {
+            return task.id !== card.id;
+          });
           activity.children = tasks;
           return activity;
         });
@@ -101,9 +125,9 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
       setCardList(updatedCards);
     } else if (card.field === "activity") {
       let updatedCards = cardList.map((goal) => {
-        goal.children = goal.children.filter(
-          (activity) => activity.id !== card.id
-        );
+        goal.children = goal.children.filter((activity) => {
+          return activity.id !== card.id;
+        });
         return goal;
       });
       setCardList(updatedCards);
@@ -123,6 +147,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
             text: "",
             field: "activity",
             color: "#fff790",
+            ATasksEstimation: 3,
             children: [],
           });
         }
@@ -139,7 +164,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
               parent: { id: card.id },
               text: "",
               field: "task",
-              estimation: 5,
+              estimation: 4,
               color: "#fff",
             });
           }
@@ -159,6 +184,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
         text: "",
         field: "goal",
         color: "#b3d7eb",
+        AActivityEstimation: 2,
         children: [],
       },
     ]);
