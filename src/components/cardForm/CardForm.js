@@ -66,21 +66,18 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
         </span>
         <span
           className={classNames("normal", {
-            iconSpacing: card.estimation,
+            iconSpacing: card.type === "task",
           })}
         >
           <i className={classNames("fa fa-eye")} aria-hidden="true"></i>
-          {card.estimation ? <i aria-hidden="true">{card.estimation}</i> : ""}
-          {card.AActivityEstimation ? (
-            <i aria-hidden="true" className={classNames("alignTotal")}>
-              {card.AActivityEstimation}
-            </i>
+          {card.type === "task" ? (
+            <i aria-hidden="true">{card.estimation}</i>
           ) : (
             ""
           )}
-          {card.ATasksEstimation ? (
+          {card.type !== "task" ? (
             <i aria-hidden="true" className={classNames("alignTotal")}>
-              {card.ATasksEstimation}
+              {card.estimation}
             </i>
           ) : (
             ""

@@ -18,11 +18,11 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
           accTasks = accTasks + task.estimation;
           return accTasks;
         }, 0);
-        activity.ATasksEstimation = sumTask;
-        accActivity = accActivity + activity.ATasksEstimation;
+        activity.estimation = sumTask;
+        accActivity = accActivity + activity.estimation;
         return accActivity;
       }, 0);
-      goal.AActivityEstimation = sumActivity;
+      goal.estimation = sumActivity;
       return accGoal;
     }, 0);
     setCardList(goals);
@@ -73,7 +73,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
               parent: { id: card.parent.id },
               title: title,
               type: card.type,
-              ATasksEstimation: 8,
+              estimation: 8,
               children: [],
             });
           }
@@ -97,7 +97,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
             id: Math.floor(Math.random() * 100),
             title: title,
             type: card.type,
-            AActivityEstimation: 9,
+            estimation: 9,
             children: [],
           },
         ]);
@@ -141,7 +141,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
             parent: { id: card.id },
             title: "",
             type: "activity",
-            ATasksEstimation: 3,
+            estimation: 3,
             children: [],
           });
         }
@@ -176,7 +176,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
         id: Math.floor(Math.random() * 100),
         title: "",
         type: "goal",
-        AActivityEstimation: 2,
+        estimation: 2,
         children: [],
       },
     ]);
