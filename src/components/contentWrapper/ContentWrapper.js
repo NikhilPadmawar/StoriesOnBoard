@@ -8,14 +8,12 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
 
   useEffect(() => {
     getUpdatedList(cardList);
-    updatedEstimation(cardList);
+    updatedEstimations(cardList);
   }, [cardList, getUpdatedList]);
 
-  console.log(cardList);
-
-  const updatedEstimation = (goals) => {
+  const updatedEstimations = (goals) => {
     goals.reduce((accGoal, goal) => {
-      const sumAct = goal.children.reduce((accActivity, activity) => {
+      const sumActivity = goal.children.reduce((accActivity, activity) => {
         const sumTask = activity.children.reduce((accTasks, task) => {
           accTasks = accTasks + task.estimation;
           return accTasks;
@@ -24,14 +22,14 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
         accActivity = accActivity + activity.ATasksEstimation;
         return accActivity;
       }, 0);
-      goal.AActivityEstimation = sumAct;
+      goal.AActivityEstimation = sumActivity;
       return accGoal;
     }, 0);
     setCardList(goals);
   };
 
-  const addUpdateCardHandler = (text, card, editFlag) => {
-    if (card.field === "task") {
+  const addUpdateCardHandler = (title, card, editFlag) => {
+    if (card.type === "task") {
       let updatedCards = cardList.map((goal) => {
         let activities = goal.children || [];
 
@@ -40,7 +38,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
             if (editFlag) {
               activity.children.map((task) => {
                 if (task.id === card.id) {
-                  task.text = text;
+                  task.title = title;
                 }
                 return task;
               });
@@ -48,10 +46,9 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
               activity.children.push({
                 id: Math.floor(Math.random() * 100),
                 parent: { id: card.parent.id },
-                text: text,
-                field: card.field,
+                title: title,
+                type: card.type,
                 estimation: 5,
-                color: card.color,
               });
             }
           }
@@ -60,13 +57,13 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
         return goal;
       });
       setCardList(updatedCards);
-    } else if (card.field === "activity") {
+    } else if (card.type === "activity") {
       let updatedCards = cardList.map((goal) => {
         if (goal.id === card.parent.id) {
           if (editFlag) {
             goal.children.map((activity) => {
               if (activity.id === card.id) {
-                activity.text = text;
+                activity.title = title;
               }
               return activity;
             });
@@ -74,9 +71,8 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
             goal.children.push({
               id: Math.floor(Math.random() * 100),
               parent: { id: card.parent.id },
-              text: text,
-              field: card.field,
-              color: card.color,
+              title: title,
+              type: card.type,
               ATasksEstimation: 8,
               children: [],
             });
@@ -89,7 +85,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
       if (editFlag) {
         let updatedCards = cardList.map((goal) => {
           if (goal.id === card.id) {
-            goal.text = text;
+            goal.title = title;
           }
           return goal;
         });
@@ -99,9 +95,8 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
           ...cardList,
           {
             id: Math.floor(Math.random() * 100),
-            text: text,
-            field: card.field,
-            color: card.color,
+            title: title,
+            type: card.type,
             AActivityEstimation: 9,
             children: [],
           },
@@ -111,7 +106,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
   };
 
   const removeCardHandler = (card) => {
-    if (card.field === "task") {
+    if (card.type === "task") {
       let updatedCards = cardList.map((goal) => {
         goal.children.map((activity) => {
           let tasks = activity.children.filter((task) => {
@@ -123,7 +118,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
         return goal;
       });
       setCardList(updatedCards);
-    } else if (card.field === "activity") {
+    } else if (card.type === "activity") {
       let updatedCards = cardList.map((goal) => {
         goal.children = goal.children.filter((activity) => {
           return activity.id !== card.id;
@@ -138,15 +133,14 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
   };
 
   const addChildCardHandler = (card) => {
-    if (card.field === "goal") {
+    if (card.type === "goal") {
       let updatedCards = cardList.map((goal) => {
         if (goal.id === card.id) {
           goal.children.push({
             id: Math.floor(Math.random() * 100),
             parent: { id: card.id },
-            text: "",
-            field: "activity",
-            color: "#fff790",
+            title: "",
+            type: "activity",
             ATasksEstimation: 3,
             children: [],
           });
@@ -154,7 +148,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
         return goal;
       });
       setCardList(updatedCards);
-    } else if (card.field === "activity") {
+    } else if (card.type === "activity") {
       let updatedCards = cardList.map((goal) => {
         let activities = goal.children || [];
         activities.map((activity) => {
@@ -162,10 +156,9 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
             activity.children.push({
               id: Math.floor(Math.random() * 100),
               parent: { id: card.id },
-              text: "",
-              field: "task",
+              title: "",
+              type: "task",
               estimation: 4,
-              color: "#fff",
             });
           }
           return activity;
@@ -181,9 +174,8 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
       ...cardList,
       {
         id: Math.floor(Math.random() * 100),
-        text: "",
-        field: "goal",
-        color: "#b3d7eb",
+        title: "",
+        type: "goal",
         AActivityEstimation: 2,
         children: [],
       },
@@ -196,7 +188,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
         className={classNames("recursiveWrapper")}
         style={{
           flexDirection:
-            cardList.length && cardList[0].field === "task" ? "column" : "row",
+            cardList.length && cardList[0].type === "task" ? "column" : "row",
         }}
       >
         {cardList.map((card) => {
@@ -208,7 +200,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
                 card={card}
                 cardList={cardList}
               ></CardForm>
-              {card.field !== "task" && card.children.length === 0 ? (
+              {card.type !== "task" && card.children.length === 0 ? (
                 <i
                   onClick={() => addChildCardHandler(card)}
                   className={classNames("fa fa-chevron-down", "downArrow")}

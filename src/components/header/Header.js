@@ -3,6 +3,7 @@ import classNames from "classnames";
 import "./Header.scss";
 import TransformCSVData from "../../utils/transFormDataToCSV";
 import { CSVLink } from "react-csv";
+import Avatar from "react-avatar";
 
 const headers = [
   { label: "Goal", key: "Goal" },
@@ -14,17 +15,24 @@ const headers = [
 const Header = ({ cardsData }) => {
   const transFormDataToCsv = TransformCSVData(cardsData);
 
-  console.log(transFormDataToCsv);
-
   return (
     <div>
       <header className={classNames("header")}>
         <div className={classNames("logo")}>TW Story Board</div>
         <div className={classNames("profile")}>
-          <CSVLink className={classNames("csv")} data={transFormDataToCsv} headers={headers}>
+          <CSVLink
+            className={classNames("csv")}
+            data={transFormDataToCsv}
+            headers={headers}
+          >
             Export
           </CSVLink>
-          <div>Profile</div>
+          <Avatar
+            name="Thought Works"
+            size="40"
+            round={true}
+            color="#2464a8"
+          />
         </div>
       </header>
     </div>

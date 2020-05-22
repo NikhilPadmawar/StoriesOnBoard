@@ -7,17 +7,17 @@ const transFormData = (goals) => {
               activity.children.length !== 0
                 ? activity.children.reduce((accTask, task) => {
                     accTask.push({
-                      Goal: goal.text,
-                      Activity: activity.text,
-                      Task: task.text,
+                      Goal: goal.title,
+                      Activity: activity.title,
+                      Task: task.title,
                       Estimation: task.estimation,
                     });
                     return accTask;
                   }, [])
                 : [
                     {
-                      Goal: goal.text,
-                      Activity: activity.text,
+                      Goal: goal.title,
+                      Activity: activity.title,
                       Task: "",
                       Estimation: null,
                     },
@@ -27,7 +27,7 @@ const transFormData = (goals) => {
           }, [])
         : [
             {
-              Goal: goal.text,
+              Goal: goal.title,
               Activity: "",
               Task: "",
               Estimation: null,

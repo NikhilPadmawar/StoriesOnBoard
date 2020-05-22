@@ -1,77 +1,68 @@
 [
   {
     "id": 1,
-    "text": "Goal1",
-    "field": "goal",
+    "title": "Goal1",
+    "type": "goal",
     "parent": null,
-    "color": "#b3d7eb",
     "AActivityEstimation": 0,
     "children": [
       {
         "id": 2,
         "parent": { "id": 1 },
-        "text": "Activity1",
-        "field": "activity",
-        "color": "#fff790",
+        "title": "Activity1",
+        "type": "activity",
         "ATasksEstimation": 0,
         "children": [
           {
             "id": 3,
             "parent": { "id": 2 },
-            "text": "Task1",
-            "field": "task",
-            "estimation": 4,
-            "color": "#fff"
+            "title": "Task1",
+            "type": "task",
+            "estimation": 4
           },
           {
             "id": 4,
             "parent": { "id": 2 },
-            "text": "Task2",
-            "field": "task",
-            "estimation": 5,
-            "color": "#fff"
+            "title": "Task2",
+            "type": "task",
+            "estimation": 5
           },
           {
             "id": 11,
             "parent": { "id": 2 },
-            "text": "Task2",
-            "field": "task",
-            "estimation": 3,
-            "color": "#fff"
+            "title": "Task2",
+            "type": "task",
+            "estimation": 3
           }
         ]
       },
       {
-        "text": "Activity2",
+        "title": "Activity2",
         "id": 5,
         "parent": { "id": 1 },
-        "field": "activity",
-        "color": "#fff790",
+        "type": "activity",
         "ATasksEstimation": 0,
         "children": [
           {
             "id": 6,
             "parent": { "id": 5 },
-            "text": "Task1",
-            "field": "task",
-            "estimation": 2,
-            "color": "#fff"
+            "title": "Task1",
+            "type": "task",
+            "estimation": 2
           },
           {
-            "text": "Task2",
+            "title": "Task2",
             "id": 7,
             "parent": { "id": 5 },
-            "field": "task",
-            "estimation": 1,
-            "color": "#fff"
+            "type": "task",
+            "estimation": 1
           },
           {
             "id": 8,
             "parent": { "id": 5 },
-            "text": "Task3",
-            "field": "task",
-            "estimation": 7,
-            "color": "#fff"
+            "title": "Task3",
+            "type": "task",
+            "estimation": 7
           }
         ]
       }
@@ -79,10 +70,9 @@
   },
   {
     "id": 10,
-    "text": "Goal1",
-    "field": "goal",
+    "title": "Goal1",
+    "type": "goal",
     "parent": null,
-    "color": "#b3d7eb",
     "AActivityEstimation": 0,
     "children": []
   }

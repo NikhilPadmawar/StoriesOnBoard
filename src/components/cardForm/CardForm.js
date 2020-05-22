@@ -14,11 +14,17 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
   };
 
   const editCardHandler = () => {
-    setValue(card.text);
+    setValue(card.title);
     setEditFlag(true);
   };
   return (
-    <div style={{ background: card.color }} className={classNames("cards")}>
+    <div
+      className={classNames("cards", {
+        goal: card.type === "goal",
+        activity: card.type === "activity",
+        task: card.type === "task",
+      })}
+    >
       <form onSubmit={handleSubmit}>
         {editFlag ? (
           <input
@@ -32,7 +38,7 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
             onChange={(e) => setValue(e.target.value)}
           ></input>
         ) : (
-          card.text
+          card.title
         )}
       </form>
       <div className={classNames("hoverable")}>
@@ -52,7 +58,7 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
           ></i>
           <i
             className={classNames("fa fa-chevron-right", {
-              "fa fa-chevron-down": card.field === "task",
+              "fa fa-chevron-down": card.type === "task",
             })}
             aria-hidden="true"
             onClick={handleSubmit}
