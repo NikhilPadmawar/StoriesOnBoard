@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import "./CardForm.scss";
+import PropTypes from "prop-types";
 
-const CardForm = ({ addUpdateCard, card, removeCard }) => {
+const CardForm = ({ card, removeCard, updateCard, addCard }) => {
   const [value, setValue] = useState("");
   const [editFlag, setEditFlag] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addUpdateCard(value, card, editFlag);
+    editFlag ? updateCard(value, card) : addCard(card);
     setEditFlag(false);
     setValue("");
   };
@@ -20,15 +21,16 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
   return (
     <div
       className={classNames("cards", {
-        goal: card.type === "goal",
-        activity: card.type === "activity",
-        task: card.type === "task",
+        goal: card && card.type === "goal",
+        activity: card && card.type === "activity",
+        task: card && card.type === "task",
       })}
     >
       <form onSubmit={handleSubmit}>
         {editFlag ? (
           <input
             className={classNames("textArea")}
+            type="text"
             placeholder="Empty card"
             name="textarea"
             id="textarea"
@@ -38,7 +40,7 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
             onChange={(e) => setValue(e.target.value)}
           ></input>
         ) : (
-          card.title
+          card && card.title
         )}
       </form>
       <div className={classNames("hoverable")}>
@@ -58,7 +60,7 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
           ></i>
           <i
             className={classNames("fa fa-chevron-right", {
-              "fa fa-chevron-down": card.type === "task",
+              "fa fa-chevron-down": card && card.type === "task",
             })}
             aria-hidden="true"
             onClick={handleSubmit}
@@ -66,18 +68,21 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
         </span>
         <span
           className={classNames("normal", {
-            iconSpacing: card.type === "task",
+            iconSpacing: card && card.type === "task",
           })}
         >
           <i className={classNames("fa fa-eye")} aria-hidden="true"></i>
-          {card.type === "task" ? (
-            <i aria-hidden="true">{card.estimation}</i>
+          {card && card.type === "task" ? (
+            <i aria-hidden="true">{card.estimation !== 0 && card.estimation}</i>
           ) : (
             ""
           )}
-          {card.type !== "task" ? (
-            <i aria-hidden="true" className={classNames("alignTotal")}>
-              {card.estimation}
+          {card && card.type !== "task" ? (
+            <i
+              aria-hidden="true"
+              className={classNames({ alignTotal: card.estimation })}
+            >
+              {card.estimation !== 0 && card.estimation}
             </i>
           ) : (
             ""
@@ -86,6 +91,15 @@ const CardForm = ({ addUpdateCard, card, removeCard }) => {
       </div>
     </div>
   );
+};
+
+CardForm.propTypes = {
+  id: PropTypes.string,
+  parent: PropTypes.array,
+  title: PropTypes.string,
+  type: PropTypes.string,
+  estimation: PropTypes.number,
+  children: PropTypes.array,
 };
 
 export default CardForm;

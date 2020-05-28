@@ -28,29 +28,18 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
     setCardList(goals);
   };
 
-  const addUpdateCardHandler = (title, card, editFlag) => {
+  const updateCardHandler = (title, card) => {
     if (card.type === "task") {
       let updatedCards = cardList.map((goal) => {
         let activities = goal.children || [];
-
         activities.map((activity) => {
           if (activity.id === card.parent.id) {
-            if (editFlag) {
-              activity.children.map((task) => {
-                if (task.id === card.id) {
-                  task.title = title;
-                }
-                return task;
-              });
-            } else {
-              activity.children.push({
-                id: Math.floor(Math.random() * 100),
-                parent: { id: card.parent.id },
-                title: title,
-                type: card.type,
-                estimation: 5,
-              });
-            }
+            activity.children.map((task) => {
+              if (task.id === card.id) {
+                task.title = title;
+              }
+              return task;
+            });
           }
           return activity;
         });
@@ -60,48 +49,74 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
     } else if (card.type === "activity") {
       let updatedCards = cardList.map((goal) => {
         if (goal.id === card.parent.id) {
-          if (editFlag) {
-            goal.children.map((activity) => {
-              if (activity.id === card.id) {
-                activity.title = title;
-              }
-              return activity;
-            });
-          } else {
-            goal.children.push({
-              id: Math.floor(Math.random() * 100),
-              parent: { id: card.parent.id },
-              title: title,
-              type: card.type,
-              estimation: 8,
-              children: [],
-            });
-          }
+          goal.children.map((activity) => {
+            if (activity.id === card.id) {
+              activity.title = title;
+            }
+            return activity;
+          });
         }
         return goal;
       });
       setCardList(updatedCards);
     } else {
-      if (editFlag) {
-        let updatedCards = cardList.map((goal) => {
-          if (goal.id === card.id) {
-            goal.title = title;
+      let updatedCards = cardList.map((goal) => {
+        if (goal.id === card.id) {
+          goal.title = title;
+        }
+        return goal;
+      });
+      setCardList(updatedCards);
+    }
+  };
+
+  const addNewCardHandler = (card) => {
+    if (card.type === "task") {
+      let updatedCards = cardList.map((goal) => {
+        let activities = goal.children || [];
+
+        activities.map((activity) => {
+          if (activity.id === card.parent.id) {
+            activity.children.push({
+              id: Math.floor(Math.random() * 100),
+              parent: { id: card.parent.id },
+              title: "",
+              type: card.type,
+              estimation: 5,
+            });
           }
-          return goal;
+
+          return activity;
         });
-        setCardList(updatedCards);
-      } else {
-        setCardList([
-          ...cardList,
-          {
+        return goal;
+      });
+      setCardList(updatedCards);
+    } else if (card.type === "activity") {
+      let updatedCards = cardList.map((goal) => {
+        if (goal.id === card.parent.id) {
+          goal.children.push({
             id: Math.floor(Math.random() * 100),
-            title: title,
+            parent: { id: card.parent.id },
+            title: "",
             type: card.type,
-            estimation: 9,
+            estimation: 8,
             children: [],
-          },
-        ]);
-      }
+          });
+        }
+        return goal;
+      });
+      setCardList(updatedCards);
+    } else {
+      setCardList([
+        ...cardList,
+        {
+          id: Math.floor(Math.random() * 100),
+          title: "",
+          type: card.type,
+          estimation: 9,
+          children: [],
+        },
+      ]);
     }
   };
 
@@ -182,7 +197,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
     ]);
   };
 
-  const recursion = (cardList) => {
+  const cardContainer = (cardList) => {
     return (
       <div
         className={classNames("recursiveWrapper")}
@@ -195,10 +210,10 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
           return (
             <div key={card.id}>
               <CardForm
-                addUpdateCard={addUpdateCardHandler}
+                addCard={addNewCardHandler}
+                updateCard={updateCardHandler}
                 removeCard={removeCardHandler}
                 card={card}
-                cardList={cardList}
               ></CardForm>
               {card.type !== "task" && card.children.length === 0 ? (
                 <i
@@ -209,7 +224,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
               ) : (
                 ""
               )}
-              <div>{card.children && recursion(card.children)}</div>
+              <div>{card.children && cardContainer(card.children)}</div>
             </div>
           );
         })}
@@ -220,7 +235,7 @@ const ContentWrapper = ({ cardsData, getUpdatedList }) => {
   return (
     <div className={classNames("contentWrapper")}>
       {cardList.length !== 0 ? (
-        recursion(cardList)
+        cardContainer(cardList)
       ) : (
         <div className={classNames("addCardContainer")}>
           <button
